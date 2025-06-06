@@ -3,41 +3,42 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
+const loadMoreBtn = document.querySelector('.load-more');
 
-const galleryBox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-});
+let lightbox = new SimpleLightbox('.gallery a');
 
 export function createGallery(images) {
   const markup = images
-    .map(image => {
-      const {
-        webformatURL,
-        largeImageURL,
-        tags,
-        likes,
-        views,
-        comments,
-        downloads,
-      } = image;
-      return `
-      <li class="gallery-item">
-        <a href="${largeImageURL}"><img class="gallery-image" src="${webformatURL}" alt="${tags}"/></a>
-        <div class="stats">
-          <p><span>Likes</span><span>${likes}</span></p>
-          <p><span>Views</span><span>${views}</span></p>
-          <p><span>Comments</span><span>${comments}</span></p>
-          <p><span>Downloads</span><span>${downloads}</span></p>
+    .map(
+      image => `
+    <li class="photo-card">
+      <a href="${image.largeImageURL}">
+        <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
+      </a>
+      <div class="info">
+        <div class="info-item">
+          <b>Likes</b>
+          <span>${image.likes}</span>
         </div>
-      </li>
-        `;
-    })
+        <div class="info-item">
+          <b>Views</b>
+          <span>${image.views}</span>
+        </div>
+        <div class="info-item">
+          <b>Comments</b>
+          <span>${image.comments}</span>
+        </div>
+        <div class="info-item">
+          <b>Downloads</b>
+          <span>${image.downloads}</span>
+        </div>
+      </div>
+    </li>`
+    )
     .join('');
 
-  gallery.insertAdjacentHTML('afterbegin', markup);
-
-  galleryBox.refresh();
+  gallery.insertAdjacentHTML('beforeend', markup);
+  lightbox.refresh();
 }
 
 export function clearGallery() {
@@ -45,9 +46,25 @@ export function clearGallery() {
 }
 
 export function showLoader() {
-  loader.style.visibility = 'visible';
+  if (loader) {
+    loader.classList.remove('is-hidden');
+  }
 }
 
 export function hideLoader() {
-  loader.style.visibility = 'hidden';
+  if (loader) {
+    loader.classList.add('is-hidden');
+  }
+}
+
+export function showLoadMoreButton() {
+  if (loadMoreBtn) {
+    loadMoreBtn.classList.remove('is-hidden');
+  }
+}
+
+export function hideLoadMoreButton() {
+  if (loadMoreBtn) {
+    loadMoreBtn.classList.add('is-hidden');
+  }
 }
