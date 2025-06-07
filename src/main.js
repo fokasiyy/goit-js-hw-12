@@ -16,7 +16,7 @@ const loadMoreBtn = document.querySelector('.load-more');
 
 let query;
 let page = 1;
-const perPage = 15; // Added this so that i can dynamically change per_page query
+const perPage = 15; 
 
 form.addEventListener('submit', e => {
   e.preventDefault();
@@ -92,5 +92,5 @@ function scrollView() {
       left: 0,
       behavior: 'smooth',
     });
-  }, 200); // Added delay because i don`t like immediate scroll
+  }, 200); 
 }
